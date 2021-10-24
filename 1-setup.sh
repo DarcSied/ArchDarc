@@ -37,20 +37,6 @@ sed -i 's/^#Para/Para/' /etc/pacman.conf
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 pacman -Sy --noconfirm
 
-if ! source install.conf; then
-	read -p "Please enter username:" username
-echo "username=$username" >> ${HOME}/ArchDarc/install.conf
-fi
-if [ $(whoami) = "root"  ];
-then
-    useradd -m -G wheel,libvirt -s /bin/bash $username 
-	passwd $username
-	cp -R /root/ArchDarc /home/$username/
-    chown -R $username: /home/$username/ArchDarc
-else
-	echo "You are already a user proceed further"
-fi
-
 echo -e "\nInstalling Base System\n"
 PKGS=(
 'alacritty'
@@ -265,6 +251,20 @@ elif lspci | grep -E "Radeon"; then
     pacman -S xf86-video-amdgpu --noconfirm --needed
 elif lspci | grep -E "Integrated Graphics Controller"; then
     pacman -S libva-intel-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-intel-driver libva-utils --needed --noconfirm
+fi
+
+if ! source install.conf; then
+	read -p "Please enter username:" username
+echo "username=$username" >> ${HOME}/ArchDarc/install.conf
+fi
+if [ $(whoami) = "root"  ];
+then
+    useradd -m -G wheel,libvirt -s /bin/bash $username 
+	passwd $username
+	cp -R /root/ArchDarc /home/$username/
+    chown -R $username: /home/$username/ArchDarc
+else
+	echo "You are already a user proceed further"
 fi
 
 echo "------------------------------------"
