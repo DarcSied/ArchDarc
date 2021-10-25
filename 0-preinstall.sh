@@ -77,7 +77,7 @@ mkdir /mnt/boot/efi
 mount -t vfat -L UEFISYS /mnt/boot/
 
 echo -e "\nInstalling Arch on Main Drive"
-pacstrap /mnt base base-devel linux linux-firmware neovim sudo archlinux-keyring wget libnewt --noconfirm --needed
+pacstrap /mnt base base-devel linux linux-firmware vim sudo archlinux-keyring wget libnewt --noconfirm --needed
 genfstab -U /mnt >> /mnt/etc/fstab
 echo "keyserver hkp://keyserver.ubuntu.com" >> /mnt/etc/pacman.d/gnupg/gpg.conf
 

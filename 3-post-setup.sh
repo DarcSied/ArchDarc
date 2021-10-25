@@ -3,7 +3,7 @@
 echo -e "\nEnabling Login Display Manager"
 sudo systemctl enable sddm.service
 
-# echo -e "\nSetup SDDM Theme"
+# echo -e "\nSetting up SDDM Theme"
 # sudo cat <<EOF > /etc/sddm.conf
 # [Theme]
 # Current=Nordic
@@ -16,6 +16,11 @@ sudo systemctl enable ntpd.service
 sudo systemctl disable dhcpcd.service
 sudo systemctl stop dhcpcd.service
 sudo systemctl enable NetworkManager.service
+
+echo -e "\nEnabling ClamAV"
+sudo freshclam
+sudo systemctl enable --now clamav-freshclam.service
+sudo systemctl enable --now clamav-daemon.service
 
 echo -e "\nCleaning up"
 
