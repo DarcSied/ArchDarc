@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 echo -e "\nSetting up mirrors for optimal download"
 iso=$(curl -4 ifconfig.co/country-iso)
 timedatectl set-ntp true
@@ -16,6 +17,8 @@ echo -e " ██╔══██║██╔══██╗██║     ██�
 echo -e " ██║  ██║██║  ██║╚██████╗██║  ██║██████╔╝██║  ██║██║  ██║╚██████╗"
 echo -e " ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝"                                                              
 echo -e "-----------------------------------------------------------------"
+
+echo -e "\nSetting up $iso mirrors for faster downloads"
 reflector -a 48 -c $iso -f 5 -l 20 --sort rate --save /etc/pacman.d/mirrorlist
 mkdir /mnt
 
@@ -68,6 +71,12 @@ ls /mnt | xargs btrfs subvolume delete
 btrfs subvolume create /mnt/@
 umount /mnt
 ;;
+*)
+echo "Rebooting in 3 Seconds ..." && sleep 1
+echo "Rebooting in 2 Seconds ..." && sleep 1
+echo "Rebooting in 1 Second ..." && sleep 1
+reboot now
+;;
 esac
 
 # mount target
@@ -75,6 +84,14 @@ mount -t btrfs -o subvol=@ -L ROOT /mnt
 mkdir /mnt/boot
 mkdir /mnt/boot/efi
 mount -t vfat -L UEFISYS /mnt/boot/
+
+if ! grep -qs '/mnt' /proc/mounts; then
+    echo "Drive is not mounted so cannot continue"
+    echo "Rebooting in 3 Seconds ..." && sleep 1
+    echo "Rebooting in 2 Seconds ..." && sleep 1
+    echo "Rebooting in 1 Second ..." && sleep 1
+    reboot now
+fi
 
 echo -e "\nInstalling Arch on Main Drive"
 pacstrap /mnt base base-devel linux linux-firmware vim sudo archlinux-keyring wget libnewt --noconfirm --needed
@@ -90,8 +107,20 @@ linux /vmlinuz-linux
 initrd  /initramfs-linux.img  
 options root=LABEL=ROOT rw rootflags=subvol=@
 EOF
-cp -R ~/ArchDarc /mnt/root/
+
+cp -R ${SCRIPT_DIR} /mnt/root/ArchTitus
 cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
+echo "--------------------------------------"
+echo "-- Check for low memory systems <8G --"
+echo "--------------------------------------"
+TOTALMEM=$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')
+if [[  $TOTALMEM -lt 8000000 ]]; then
+    dd if=/dev/zero of=/swapfile bs=1M count=2048 status=progress
+    chmod 600 /swapfile
+    mkswap /swapfile
+    swapon /swapfile
+fi
+
 echo "-------------------------------------"
 echo "---    PROCEEDING WITH 1-setup    ---"
 echo "-------------------------------------"
