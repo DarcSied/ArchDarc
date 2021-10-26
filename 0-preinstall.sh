@@ -108,7 +108,7 @@ initrd  /initramfs-linux.img
 options root=LABEL=ROOT rw rootflags=subvol=@
 EOF
 
-cp -R ${SCRIPT_DIR} /mnt/root/ArchTitus
+cp -R ${SCRIPT_DIR} /mnt/root/ArchDarc
 cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
 echo "--------------------------------------"
 echo "-- Check for low memory systems <8G --"
