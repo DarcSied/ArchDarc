@@ -40,9 +40,9 @@ done
 export PATH=$PATH:~/.local/bin
 cp -r $HOME/ArchDarc/dotfiles/* $HOME/.config/
 pip install konsave
-# konsave -i $HOME/ArchDarc/kde.knsv
-# sleep 1
-# konsave -a kde
+konsave -i $HOME/ArchDarc/dracula.knsv
+sleep 1
+konsave -a dracula
 
 echo "------------------------------------------"
 echo "---    PROCEEDING WITH 3-post-setup    ---"

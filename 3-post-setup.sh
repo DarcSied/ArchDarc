@@ -3,11 +3,11 @@
 echo -e "\nEnabling Login Display Manager"
 sudo systemctl enable sddm.service
 
-# echo -e "\nSetting up SDDM Theme"
-# sudo cat <<EOF > /etc/sddm.conf
-# [Theme]
-# Current=Nordic
-# EOF
+echo -e "\nSetting up SDDM Theme"
+sudo cat <<EOF > /etc/sddm.conf
+[Theme]
+Current=Dracula
+EOF
 
 echo -e "\nEnabling the cups service daemon so we can print"
 systemctl enable cups.service
