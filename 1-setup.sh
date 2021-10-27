@@ -71,8 +71,6 @@ PKGS=(
 'bridge-utils'
 'btrfs-progs'
 'celluloid' # video players
-'clamav'
-'clamtk'
 'cmatrix'
 'code' # Visual Studio code
 'cronie'

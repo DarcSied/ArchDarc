@@ -16,6 +16,7 @@ ln -s "$HOME/zsh/.zshrc" $HOME/.zshrc
 
 PKGS=(
 'awesome-terminal-fonts'
+'capitaine-cursors'
 'dxvk-bin' # DXVK DirectX to Vulcan
 'github-desktop-bin' # Github Desktop sync
 'mangohud' # Gaming FPS Counter
@@ -40,9 +41,9 @@ done
 export PATH=$PATH:~/.local/bin
 cp -r $HOME/ArchDarc/dotfiles/* $HOME/.config/
 pip install konsave
-konsave -i $HOME/ArchDarc/dracula.knsv
+konsave -i $HOME/ArchDarc/breeze.knsv
 sleep 1
-konsave -a dracula
+konsave -a breeze
 
 echo "------------------------------------------"
 echo "---    PROCEEDING WITH 3-post-setup    ---"

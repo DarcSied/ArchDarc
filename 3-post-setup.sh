@@ -18,11 +18,6 @@ sudo systemctl stop dhcpcd.service
 sudo systemctl enable NetworkManager.service
 sudo systemctl enable bluetooth
 
-echo -e "\nEnabling ClamAV"
-sudo freshclam
-sudo systemctl enable --now clamav-freshclam.service
-sudo systemctl enable --now clamav-daemon.service
-
 echo -e "\nCleaning up"
 
 # Remove no password sudo rights
