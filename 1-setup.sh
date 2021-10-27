@@ -13,16 +13,19 @@ cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
 nc=$(grep -c ^processor /proc/cpuinfo)
 echo "You have "$nc" cores."
 echo "Changing the makeflags for "$nc" cores."
+TOTALMEM=$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')
+if [[  $TOTALMEM -gt 8000000 ]]; then
 sudo sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$nc"/g' /etc/makepkg.conf
 echo "Changing the compression settings for "$nc" cores."
 sudo sed -i 's/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -T $nc -z -)/g' /etc/makepkg.conf
+fi
 
 echo -e "\nSetting-up Language and Locale (By default to en_IN)"
 sed -i 's/^#en_IN.UTF-8 UTF-8/en_IN.UTF-8 UTF-8/' /etc/locale.gen
 locale-gen
 timedatectl --no-ask-password set-timezone Asia/Kolkata
 timedatectl --no-ask-password set-ntp 1
-localectl --no-ask-password set-locale LANG="en_IN.UTF-8" LC_COLLATE="" LC_TIME="en_IN.UTF-8"
+localectl --no-ask-password set-locale LANG="en_IN.UTF-8" LC_TIME="en_IN.UTF-8"
 
 # Set keymaps
 localectl --no-ask-password set-keymap colemak
