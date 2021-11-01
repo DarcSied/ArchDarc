@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
 
+echo -e "\nSetting Colemak as keyboard layout"
+setxkbmap --no-ask-password us -variant colemak
+
 echo -e "\nEnabling Login Display Manager"
 sudo systemctl enable sddm.service
 
 echo -e "\nSetting up SDDM Theme"
 sudo cat <<EOF > /etc/sddm.conf
 [Theme]
-Current=Dracula
+Current=Breeze
 EOF
 
 echo -e "\nEnabling the cups service daemon so we can print"
