@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 echo -e "\nInstalling KDE Packages\n"
-PKGS=(
+PAKGS=(
 'plasma-desktop'
 'ark'
 'audiocd-kio' 
@@ -21,9 +21,9 @@ PKGS=(
 'zeroconf-ioslave'
 )
 
-for PKG in "${PKGS[@]}"; do
-    echo "INSTALLING: ${PKG}"
-    sudo pacman -S "$PKG" --noconfirm --needed
+for PAKG in "${PAKGS[@]}"; do
+    echo "INSTALLING: ${PAKG}"
+    sudo pacman -S "$PAKG" --noconfirm --needed
 done
 
 echo -e "\nInstalling AUR Packages\n"
