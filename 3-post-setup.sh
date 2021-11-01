@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-echo -e "\nSetting Colemak as keyboard layout"
-setxkbmap --no-ask-password us -variant colemak
-
 echo -e "\nEnabling Login Display Manager"
 sudo systemctl enable sddm.service
 

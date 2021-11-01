@@ -110,9 +110,9 @@ EOF
 
 cp -R ${SCRIPT_DIR} /mnt/root/ArchDarc
 cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
-echo "--------------------------------------"
-echo "-- Check for low memory systems <8G --"
-echo "--------------------------------------"
+echo "-----------------------------------------"
+echo "-- Checking for low memory systems <8G --"
+echo "-----------------------------------------"
 TOTALMEM=$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')
 if [[  $TOTALMEM -lt 8000000 ]]; then
     #Put swap into the actual system, not into RAM disk, otherwise there is no point in it, it'll cache RAM into RAM. So, /mnt/ everything.

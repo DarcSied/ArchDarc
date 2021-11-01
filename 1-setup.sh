@@ -49,7 +49,14 @@ PKGS=(
 'xorg-drivers'
 'xorg-xkill'
 'xorg-xinit'
-'xterm'
+'base'
+'base-devel'
+'btrfs-progs'
+'linux'
+'linux-firmware'
+'linux-headers'
+'make'
+'sudo'
 )
 
 for PKG in "${PKGS[@]}"; do
@@ -94,7 +101,6 @@ then
     chown -R $username: /home/$username/ArchDarc
 	read -p "Please name your machine:" nameofmachine
 	echo $nameofmachine > /etc/hostname
-
 else
 	echo "You are already a user proceed further"
 fi
