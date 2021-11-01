@@ -52,6 +52,7 @@ PKGS=(
 'base'
 'base-devel'
 'btrfs-progs'
+'libvirt'
 'linux'
 'linux-firmware'
 'linux-headers'
