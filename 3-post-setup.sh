@@ -1,13 +1,19 @@
 #!/usr/bin/env bash
 
 echo -e "\nEnabling Login Display Manager"
-sudo systemctl enable sddm.service
+if pacman -Qs | grep -E "sddm"; then
+    sudo systemctl enable sddm.service
+elif pacman -Qs | grep -E "lightdm"; then
+    sudo systemctl enable lightdm.service
+fi
 
 echo -e "\nSetting up SDDM Theme"
+if pacman -Qs | grep -E "plasma-desktop"; then
 sudo cat <<EOF > /etc/sddm.conf
 [Theme]
 Current=Breeze
 EOF
+fi
 
 echo -e "\nEnabling the cups service daemon so we can print"
 systemctl enable cups.service

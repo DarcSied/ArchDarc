@@ -1,31 +1,5 @@
 #!/usr/bin/env bash
 
-echo -e "\nInstalling KDE Packages\n"
-PAKGS=(
-'plasma-desktop'
-'ark'
-'audiocd-kio' 
-'bluedevil'
-'breeze'
-'breeze-gtk'
-'kvantum-qt5'
-'kde-gtk-config'
-'layer-shell-qt'
-'milou'
-'plasma-pa'
-'sddm'
-'sddm-kcm'
-'spectacle'
-'systemsettings'
-'xdg-desktop-portal-kde'
-'zeroconf-ioslave'
-)
-
-for PAKG in "${PAKGS[@]}"; do
-    echo "INSTALLING: ${PAKG}"
-    sudo pacman -S "$PAKG" --noconfirm --needed
-done
-
 echo -e "\nInstalling AUR Packages\n"
 # You can solve users running this script as root with this and then doing the same for the next for statement. However I will leave this up to you.
 
@@ -69,6 +43,7 @@ PKGS=(
 'bison'
 'bluez'
 'bluez-libs'
+'btrfs-progs'
 'bridge-utils'
 'celluloid' # video players
 'cronie'
@@ -92,7 +67,6 @@ PKGS=(
 'gst-libav'
 'gst-plugins-good'
 'gst-plugins-ugly'
-'gufw'
 'haveged'
 'htop'
 'iptables-nft'
@@ -132,6 +106,7 @@ PKGS=(
 'terminus-font'
 'thunar'
 'traceroute'
+'ufw'
 'unrar'
 'unzip'
 'usbutils'
@@ -159,10 +134,12 @@ done
 export PATH=$PATH:~/.local/bin
 cp -r $HOME/ArchDarc/dotfiles/* $HOME/.config/
 
+if pacman -Qs | grep -E "plasma-desktop"; then
 pip install konsave
 konsave -i $HOME/ArchDarc/breeze.knsv
 sleep 1
 konsave -a breeze
+fi
 
 echo "------------------------------------------"
 echo "---    PROCEEDING WITH 3-post-setup    ---"

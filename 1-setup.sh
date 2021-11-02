@@ -40,31 +40,6 @@ sed -i 's/^#Para/Para/' /etc/pacman.conf
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 pacman -Sy --noconfirm
 
-echo -e "\nInstalling Base System\n"
-PKGS=(
-'mesa'
-'xorg'
-'xorg-server'
-'xorg-apps'
-'xorg-drivers'
-'xorg-xkill'
-'xorg-xinit'
-'base'
-'base-devel'
-'btrfs-progs'
-'libvirt'
-'linux'
-'linux-firmware'
-'linux-headers'
-'make'
-'sudo'
-)
-
-for PKG in "${PKGS[@]}"; do
-    echo "INSTALLING: ${PKG}"
-    sudo pacman -S "$PKG" --noconfirm --needed
-done
-
 # Determine processor brand and install appropriate microcode
 proc_type=$(lscpu | awk '/Vendor ID:/ {print $3}')
 case "$proc_type" in
@@ -94,8 +69,7 @@ if ! source install.conf; then
 	read -p "Please enter username:" username
 echo "username=$username" >> ${HOME}/ArchDarc/install.conf
 fi
-if [ $(whoami) = "root"  ];
-then
+if [ $(whoami) = "root"  ]; then
     useradd -m -G wheel,libvirt -s /bin/bash $username 
 	passwd $username
 	cp -R /root/ArchDarc /home/$username/
@@ -105,6 +79,30 @@ then
 else
 	echo "You are already a user proceed further"
 fi
+
+# Choose DE or WM route
+finished = false  
+while [ "$finished" != "true" ]
+    echo -e "\nChoose between the following [123]"
+do
+    echo -e "1) KDE    2) BSPWM    3) Something else\n" 
+    read OPT
+
+    if [ "$OPT" = 1 ]; then
+	    echo -e "\nInstalling KDE Packages\n"
+        finished=true
+	    sudo pacman -S plasma-desktop ark audiocd-kio bluedevil breeze breeze-gtk kvantum-qt5 kde-gtk-config layer-shell-qt milou plasma-pa powerdevil sddm sddm-kcm spectacle systemsettings xdg-desktop-portal-kde zeroconf-ioslave --noconfirm --needed
+    elif [ "$OPT" = 2 ]; then
+   	    echo -e "\nInstalling BSPWM Packages\n"
+        finished=true
+        sudo pacman -S bspwm sxhkd polybar gufw lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings --noconfirm --needed
+    elif [ "$OPT" = 3 ]; then
+    	echo -e "\nYou can install your choice after the script ends\n"
+        finished=true
+    else
+        echo "\nType a valid command"
+    fi
+done
 
 echo "------------------------------------"
 echo "---    PROCEEDING WITH 2-user    ---"
