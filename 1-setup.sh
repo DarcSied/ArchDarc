@@ -81,10 +81,10 @@ else
 fi
 
 # Choose DE or WM route
-finished = false  
+finished=false  
 while [ "$finished" != "true" ]
-    echo -e "\nChoose between the following [123]"
 do
+    echo -e "\nChoose between the following [123]"
     echo -e "1) KDE    2) BSPWM    3) Something else\n" 
     read OPT
 
@@ -100,7 +100,7 @@ do
     	echo -e "\nYou can install your choice after the script ends\n"
         finished=true
     else
-        echo "\nType a valid command"
+        echo -e "\nType a valid command"
     fi
 done
 
