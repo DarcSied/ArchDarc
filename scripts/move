@@ -1,0 +1,22 @@
+#!/bin/bash
+
+case $1 in
+  one)
+    wmctrl -r :ACTIVE: -t 0 ; wmctrl -s 0
+    ;;
+  two)
+    wmctrl -r :ACTIVE: -t 1 ; wmctrl -s 1
+    ;;
+  three)
+    wmctrl -r :ACTIVE: -t 2 ; wmctrl -s 2
+    ;;
+  four)
+    wmctrl -r :ACTIVE: -t 3 ; wmctrl -s 3
+    ;;
+  five)
+    wmctrl -r :ACTIVE: -t 4 ; wmctrl -s 4
+    ;;
+  six)
+    wmctrl -r :ACTIVE: -t 5 ; wmctrl -s 5
+    ;;
+esac

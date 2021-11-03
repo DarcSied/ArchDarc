@@ -95,7 +95,7 @@ do
     elif [ "$OPT" = 2 ]; then
    	    echo -e "\nInstalling BSPWM Packages\n"
         finished=true
-        sudo pacman -S bspwm sxhkd polybar gufw lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings --noconfirm --needed
+        sudo pacman -S bspwm sxhkd polybar rofi lxappearence lxpolkit qt5ct dunst betterlockscreen flameshot gufw lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings xfce4-power-manager --noconfirm --needed
     elif [ "$OPT" = 3 ]; then
     	echo -e "\nYou can install your choice after the script ends\n"
         finished=true

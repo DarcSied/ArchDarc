@@ -48,6 +48,7 @@ PKGS=(
 'celluloid' # video players
 'cronie'
 'cups'
+'deluge'
 'dialog'
 'dosfstools'
 'efibootmgr' # EFI boot
@@ -77,7 +78,6 @@ PKGS=(
 'lutris'
 'lzop'
 'm4'
-'man-db'
 'neovim'
 'neofetch'
 'networkmanager'
@@ -95,20 +95,21 @@ PKGS=(
 'pulseaudio'
 'pulseaudio-alsa'
 'pulseaudio-bluetooth'
+'pulsemixer'
 'python-pip'
-'qbittorrent'
 'qemu'
-'rsync'
 'snapper'
 'steam'
 'swtpm'
 'sxiv'
 'terminus-font'
 'thunar'
+'tldr'
 'traceroute'
 'ufw'
 'unrar'
 'unzip'
+'unclutter'
 'usbutils'
 'virt-manager'
 'virt-viewer'
@@ -133,6 +134,11 @@ done
 
 export PATH=$PATH:~/.local/bin
 cp -r $HOME/ArchDarc/dotfiles/* $HOME/.config/
+cp -r $HOME/ArchDarc/scripts/* $HOME/bin/
+cp -r $HOME/ArchDarc/wallpapers/* $HOME/wallpapers/
+
+if pacman -Qs | grep -E "bspwm"; then
+cp -r $HOME/ArchDarc/.xinitrc $HOME/
 
 if pacman -Qs | grep -E "plasma-desktop"; then
 pip install konsave

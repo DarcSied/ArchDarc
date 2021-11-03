@@ -1,0 +1,19 @@
+#!/bin/bash
+
+##Set GB keyboard
+/usr/bin/setxkbmap -layout gb &
+
+## Set up compton
+picom -CGb &
+
+## Polkit authentication
+(sleep 2s && /usr/lib/mate-polkit/polkit-mate-authentication-agent-1) &
+
+## Launch nitrogen before launching plank
+(sleep 4s && nitrogen --restore) &
+
+## Launch xscreensaver
+xscreensaver -no-splash &
+
+
+

@@ -1,0 +1,3 @@
+#!/bin/bash
+find -L ~/.local/share/applications -type l -delete
+ln -sf /var/lib/snapd/desktop/applications/*.desktop ~/.local/share/applications/

@@ -1,0 +1,28 @@
+#!/bin/bash
+
+## Set up compton
+picom -CGb &
+
+## Polkit authentication
+(sleep 2s && /usr/lib/mate-polkit/polkit-mate-authentication-agent-1) &
+
+## Launch nitrogen before launching plank
+(sleep 4s && nitrogen --restore) &
+
+## Launch volume control
+mate-volume-control-status-icon &
+
+## Launch nm-applet
+nm-applet &
+
+## Launch pamac system tray
+pamac-tray &
+
+##Set GB keyboard
+setxkbmap -layout gb &
+
+## Launch xscreensaver
+xscreensaver -no-splash &
+
+
+
