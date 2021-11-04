@@ -94,7 +94,7 @@ if ! grep -qs '/mnt' /proc/mounts; then
 fi
 
 echo -e "\nInstalling Arch on Main Drive"
-pacstrap /mnt base base-devel linux linux-firmware vim sudo archlinux-keyring wget libnewt mesa xorg xorg-server xorg-apps xorg-drivers xorg-xkill xorg-xinit libvirt linux-headers make --noconfirm --needed
+pacstrap /mnt base base-devel linux linux-firmware git vim sudo archlinux-keyring wget libnewt mesa xorg xorg-server xorg-apps xorg-drivers xorg-xkill xorg-xinit libvirt linux-headers make --noconfirm --needed
 genfstab -U /mnt >> /mnt/etc/fstab
 echo "keyserver hkp://keyserver.ubuntu.com" >> /mnt/etc/pacman.d/gnupg/gpg.conf
 
