@@ -5,7 +5,7 @@ echo -e "\nInstalling AUR Packages\n"
 
 echo "Cloning: Paru"
 cd ~
-git clone "https://aur.archlinux.org/paru.git"
+git clone "https://aur.archlinux.org/paru-bin.git"
 cd ${HOME}/paru
 makepkg -si --noconfirm
 cd ~
@@ -132,15 +132,16 @@ for PKG in "${PKGS[@]}"; do
     paru -S --noconfirm $PKG
 done
 
-export PATH=$PATH:~/.local/bin
 cp -r $HOME/ArchDarc/dotfiles/* $HOME/.config/
 cp -r $HOME/ArchDarc/scripts/* $HOME/bin/
+mkdir $HOME/wallpapers/
 cp -r $HOME/ArchDarc/wallpapers/* $HOME/wallpapers/
 
 if pacman -Qs | grep -E "bspwm"; then
-cp -r $HOME/ArchDarc/.xinitrc $HOME/
+cp $HOME/ArchDarc/.xinitrc $HOME/
 
 if pacman -Qs | grep -E "plasma-desktop"; then
+export PATH=$PATH:$HOME/.local/bin
 pip install konsave
 konsave -i $HOME/ArchDarc/breeze.knsv
 sleep 1
