@@ -24,6 +24,9 @@ sudo systemctl stop dhcpcd.service
 sudo systemctl enable NetworkManager.service
 sudo systemctl enable bluetooth
 
+# Set keyboard layout to colemak
+setxkbmap us -variant colemak
+
 echo -e "\nCleaning up"
 
 # Remove no password sudo rights
