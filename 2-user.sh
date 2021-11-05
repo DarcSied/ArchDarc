@@ -5,7 +5,7 @@ echo -e "\nInstalling AUR Packages\n"
 
 echo "Cloning: Paru"
 cd ~
-git clone "https://aur.archlinux.org/paru-bin.git"
+git clone "https://aur.archlinux.org/paru.git"
 cd ${HOME}/paru
 makepkg -si --noconfirm
 cd ~
