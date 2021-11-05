@@ -4,15 +4,16 @@ echo -e "\nInstalling AUR Packages\n"
 # You can solve users running this script as root with this and then doing the same for the next for statement. However I will leave this up to you.
 
 echo "Cloning: Paru"
-cd ~
+mkdir $HOME/Packages
+cd ~/Packages
 git clone "https://aur.archlinux.org/paru.git"
-cd ${HOME}/paru
+cd ${HOME}/Packages/paru
 makepkg -si --noconfirm
-cd ~
+cd ~/Packages
 touch "$HOME/.cache/zshhistory"
 git clone "https://github.com/ChrisTitusTech/zsh"
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/powerlevel10k
-ln -s "$HOME/zsh/.zshrc" $HOME/.zshrc
+ln -s "$HOME/Packages/zsh/.zshrc" $HOME/.zshrc
 
 echo -e "\nInstalling rest of the packages\n"
 PKGS=(
@@ -38,8 +39,9 @@ PKGS=(
 'alsa-utils'
 'autoconf'
 'automake'
-'binutils'
+'bash-completion'
 'bind'
+'binutils'
 'bison'
 'bluez'
 'bluez-libs'
@@ -51,16 +53,18 @@ PKGS=(
 'deluge'
 'dialog'
 'dosfstools'
+'dtc'
 'efibootmgr' # EFI boot
 'egl-wayland'
 'exfat-utils'
+'extra-cmake-modules'
+'filelight'
 'flex'
 'fuse2'
 'fuse3'
 'fuseiso'
 'gamemode'
 'gcc'
-'git'
 'gparted' # partition management
 'gptfdisk'
 'grub'
@@ -72,8 +76,8 @@ PKGS=(
 'htop'
 'iptables-nft'
 'jdk-openjdk' # Java 17
-'libnewt'
 'libtool'
+'libdvdcss'
 'lsof'
 'lutris'
 'lzop'
@@ -85,8 +89,8 @@ PKGS=(
 'openbsd-netcat'
 'openssh'
 'os-prober'
-'pacman-contrib'
 'p7zip'
+'pacman-contrib'
 'patch'
 'picom'
 'pkgconf'
@@ -96,6 +100,9 @@ PKGS=(
 'pulseaudio-alsa'
 'pulseaudio-bluetooth'
 'pulsemixer'
+'python-notify2'
+'python-psutil'
+'python-pyqt5'
 'python-pip'
 'qemu'
 'snapper'
@@ -119,6 +126,7 @@ PKGS=(
 'wine-gecko'
 'wine-mono'
 'winetricks'
+'xdg-user-dirs'
 'youtube-dl'
 'zathura'
 'zathura-pdf-mupdf'
@@ -131,22 +139,6 @@ PKGS=(
 for PKG in "${PKGS[@]}"; do
     paru -S --noconfirm $PKG
 done
-
-cp -r $HOME/ArchDarc/dotfiles/* $HOME/.config/
-cp -r $HOME/ArchDarc/scripts/* $HOME/bin/
-mkdir $HOME/wallpapers/
-cp -r $HOME/ArchDarc/wallpapers/* $HOME/wallpapers/
-
-if pacman -Qs | grep -E "bspwm"; then
-cp $HOME/ArchDarc/.xinitrc $HOME/
-
-if pacman -Qs | grep -E "plasma-desktop"; then
-export PATH=$PATH:$HOME/.local/bin
-pip install konsave
-konsave -i $HOME/ArchDarc/breeze.knsv
-sleep 1
-konsave -a breeze
-fi
 
 echo "------------------------------------------"
 echo "---    PROCEEDING WITH 3-post-setup    ---"

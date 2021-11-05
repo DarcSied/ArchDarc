@@ -7,6 +7,27 @@ elif pacman -Qs | grep -E "lightdm"; then
     sudo systemctl enable lightdm.service
 fi
 
+# Copying configs and applying themes
+mkdir $HOME/.config
+cp -r $HOME/ArchDarc/dotfiles/* $HOME/.config/
+mkdir $HOME/bin
+cp -r $HOME/ArchDarc/scripts/* $HOME/bin/
+mkdir $HOME/wallpapers/
+cp -r $HOME/ArchDarc/wallpapers/* $HOME/wallpapers/
+
+if pacman -Qs | grep -E "bspwm"; then
+cp $HOME/ArchDarc/.xinitrc $HOME/
+xwallpaper --zoom $HOME/wallpapers/0.jpg
+fi
+
+if pacman -Qs | grep -E "plasma-desktop"; then
+export PATH=$PATH:$HOME/.local/bin
+pip install konsave
+konsave -i $HOME/ArchDarc/breeze.knsv
+sleep 1
+konsave -a breeze
+fi
+
 echo -e "\nSetting up SDDM Theme"
 if pacman -Qs | grep -E "plasma-desktop"; then
 sudo cat <<EOF > /etc/sddm.conf
@@ -17,12 +38,12 @@ fi
 
 echo -e "\nEnabling the cups service daemon so we can print"
 systemctl enable cups.service
-sudo ntpd -qg
-sudo systemctl enable ntpd.service
-sudo systemctl disable dhcpcd.service
-sudo systemctl stop dhcpcd.service
-sudo systemctl enable NetworkManager.service
-sudo systemctl enable bluetooth
+ntpd -qg
+systemctl enable ntpd.service
+systemctl disable dhcpcd.service
+systemctl stop dhcpcd.service
+systemctl enable NetworkManager.service
+systemctl enable bluetooth
 
 # Set keyboard layout to colemak
 setxkbmap us -variant colemak

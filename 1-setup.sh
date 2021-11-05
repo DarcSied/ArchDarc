@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo -e "\nNetwork Setup"
+echo -e "\nSetting up Network"
 pacman -S networkmanager dhclient --noconfirm --needed
 systemctl enable --now NetworkManager
 
@@ -12,7 +12,7 @@ cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
 
 nc=$(grep -c ^processor /proc/cpuinfo)
 echo "You have "$nc" cores."
-echo "Changing the makeflags for "$nc" cores."
+echo -e "\nChanging the makeflags for "$nc" cores."
 TOTALMEM=$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')
 if [[  $TOTALMEM -gt 8000000 ]]; then
 sudo sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$nc"/g' /etc/makepkg.conf
@@ -27,41 +27,17 @@ timedatectl --no-ask-password set-timezone Asia/Kolkata
 timedatectl --no-ask-password set-ntp 1
 localectl --no-ask-password set-locale LANG="en_IN.UTF-8" LC_TIME="en_IN.UTF-8"
 
-# Add sudo no password rights
+# Adding sudo no password rights
 sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
 
-#Add parallel downloading
+# Adding parallel downloading
 sed -i 's/^#Para/Para/' /etc/pacman.conf
 
-#Enable multilib
+# Enabling multilib
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 pacman -Sy --noconfirm
 
-# Determine processor brand and install appropriate microcode
-proc_type=$(lscpu | awk '/Vendor ID:/ {print $3}')
-case "$proc_type" in
-	GenuineIntel)
-		print "Installing Intel microcode"
-		pacman -S --noconfirm intel-ucode
-		proc_ucode=intel-ucode.img
-		;;
-	AuthenticAMD)
-		print "Installing AMD microcode"
-		pacman -S --noconfirm amd-ucode
-		proc_ucode=amd-ucode.img
-		;;
-esac	
-
-# Graphics Drivers find and install
-if lspci | grep -E "NVIDIA|GeForce"; then
-    pacman -S nvidia --noconfirm --needed
-	nvidia-xconfig
-elif lspci | grep -E "Radeon"; then
-    pacman -S xf86-video-amdgpu --noconfirm --needed
-elif lspci | grep -E "Integrated Graphics Controller"; then
-    pacman -S libva-intel-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-intel-driver libva-utils --needed --noconfirm
-fi
-
+# Adding user and giving a hostname
 if ! source install.conf; then
 	read -p "Please enter username:" username
 echo "username=$username" >> ${HOME}/ArchDarc/install.conf
@@ -88,7 +64,7 @@ do
     if [ "$OPT" = 1 ]; then
 	    echo -e "\nInstalling KDE Packages\n"
         finished=true
-	    sudo pacman -S plasma-desktop ark audiocd-kio bluedevil breeze breeze-gtk kvantum-qt5 kde-gtk-config layer-shell-qt milou plasma-pa powerdevil sddm sddm-kcm spectacle systemsettings xdg-desktop-portal-kde zeroconf-ioslave --noconfirm --needed
+	    sudo pacman -S plasma-desktop ark audiocd-kio bluedevil breeze breeze-gtk kvantum-qt5 kde-gtk-config kdeplasma-addons layer-shell-qt milou plasma-pa powerdevil sddm sddm-kcm spectacle systemsettings xdg-desktop-portal-kde zeroconf-ioslave --noconfirm --needed
     elif [ "$OPT" = 2 ]; then
    	    echo -e "\nInstalling BSPWM Packages\n"
         finished=true
@@ -100,6 +76,31 @@ do
         echo -e "\nType a valid command"
     fi
 done
+
+# Determine processor brand and install appropriate microcode
+proc_type=$(lscpu | awk '/Vendor ID:/ {print $3}')
+case "$proc_type" in
+	GenuineIntel)
+		print "Installing Intel microcode"
+		pacman -S --noconfirm intel-ucode
+		proc_ucode=intel-ucode.img
+		;;
+	AuthenticAMD)
+		print "Installing AMD microcode"
+		pacman -S --noconfirm amd-ucode
+		proc_ucode=amd-ucode.img
+		;;
+esac	
+
+# Graphics Drivers find and install
+if lspci | grep -E "NVIDIA|GeForce"; then
+    pacman -S nvidia --noconfirm --needed
+	nvidia-xconfig
+elif lspci | grep -E "Radeon"; then
+    pacman -S xf86-video-amdgpu --noconfirm --needed
+elif lspci | grep -E "Integrated Graphics Controller"; then
+    pacman -S libva-intel-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-intel-driver libva-utils --needed --noconfirm
+fi
 
 echo "------------------------------------"
 echo "---    PROCEEDING WITH 2-user    ---"
