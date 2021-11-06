@@ -93,7 +93,7 @@ if ! grep -qs '/mnt' /proc/mounts; then
 fi
 
 echo -e "\nInstalling Arch on Main Drive"
-pacstrap /mnt base base-devel linux linux-firmware git vim sudo grub archlinux-keyring wget ntp libnewt mesa xorg xorg-server xorg-apps xorg-drivers xorg-xkill xorg-xinit libvirt linux-headers make --noconfirm --needed
+pacstrap /mnt base base-devel linux linux-firmware linux-headers git vim sudo grub efibootmgr archlinux-keyring wget ntp libnewt mesa xorg-server xorg-apps xorg-xinit xterm xorg xorg-drivers libvirt make --noconfirm --needed
 genfstab -U /mnt >> /mnt/etc/fstab
 echo "keyserver hkp://keyserver.ubuntu.com" >> /mnt/etc/pacman.d/gnupg/gpg.conf
 cp -R ${SCRIPT_DIR} /mnt/root/ArchDarc
@@ -101,7 +101,8 @@ cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
 
 echo -e "\nGRUB BIOS Bootloader Install&Check"
 if [[ ! -d "/sys/firmware/efi" ]]; then
-    grub-install --boot-directory=/mnt/boot ${DISK}
+    grub-install --target=x86_64-efi --boot-directory=/mnt/boot/efi
+    grub-mkconfig -o /boot/grub/grub.cfg
 fi
 
 echo "-----------------------------------------"

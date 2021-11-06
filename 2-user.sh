@@ -67,7 +67,6 @@ PKGS=(
 'gcc'
 'gparted' # partition management
 'gptfdisk'
-'grub'
 'grub-customizer'
 'gst-libav'
 'gst-plugins-good'
