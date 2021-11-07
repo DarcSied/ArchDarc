@@ -7,17 +7,16 @@ systemctl enable --now NetworkManager
 echo -e "\nSetting up mirrors for optimal download"
 pacman -S --noconfirm pacman-contrib curl
 pacman -S --noconfirm reflector rsync
-iso=$(curl -4 ifconfig.co/country-iso)
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
 
 nc=$(grep -c ^processor /proc/cpuinfo)
 echo "You have "$nc" cores."
 echo -e "\nChanging the makeflags for "$nc" cores."
 TOTALMEM=$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')
-if [[  $TOTALMEM -gt 8000000 ]]; then
-sudo sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$nc"/g' /etc/makepkg.conf
+if [[  $TOTALMEM -gt 8388608 ]]; then
+sed -i "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$nc\"/g" /etc/makepkg.conf
 echo "Changing the compression settings for "$nc" cores."
-sudo sed -i 's/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -T $nc -z -)/g' /etc/makepkg.conf
+sed -i "s/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -T $nc -z -)/g" /etc/makepkg.conf
 fi
 
 echo -e "\nSetting-up Language and Locale (By default to en_IN)"
@@ -54,7 +53,7 @@ if [ $(whoami) = "root"  ]; then
 	read -p "Please name your machine:" nameofmachine
 	echo $nameofmachine > /etc/hostname
 else
-	echo "You are already a user proceed further"
+	echo "You are already a user, proceed ahead"
 fi
 
 # Choose DE or WM route

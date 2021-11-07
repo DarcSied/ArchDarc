@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+echo -e "\nGRUB EFI Bootloader Install&Check"
+if [[ -d "/sys/firmware/efi" ]]; then
+    grub-install --efi-directory=/boot ${DISK}
+fi
+grub-mkconfig -o /boot/grub/grub.cfg
+
 echo -e "\nEnabling Login Display Manager"
 if pacman -Qs | grep -E "sddm"; then
     sudo systemctl enable sddm.service
@@ -36,7 +42,7 @@ Current=Breeze
 EOF
 fi
 
-echo -e "\nEnabling the cups service daemon so we can print"
+echo -e "\nEnabling essential services"
 systemctl enable cups.service
 ntpd -qg
 systemctl enable ntpd.service

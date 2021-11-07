@@ -3,11 +3,10 @@
 echo -e "\nInstalling AUR Packages\n"
 # You can solve users running this script as root with this and then doing the same for the next for statement. However I will leave this up to you.
 
-echo "Cloning: Paru"
-mkdir $HOME/Packages
+echo "CLONING: YAY"
 cd ~/Packages
-git clone "https://aur.archlinux.org/paru.git"
-cd ${HOME}/Packages/paru
+git clone "https://aur.archlinux.org/yay.git"
+cd ${HOME}/Packages/yay
 makepkg -si --noconfirm
 cd ~/Packages
 touch "$HOME/.cache/zshhistory"
@@ -17,23 +16,6 @@ ln -s "$HOME/Packages/zsh/.zshrc" $HOME/.zshrc
 
 echo -e "\nInstalling rest of the packages\n"
 PKGS=(
-'awesome-terminal-fonts'
-'capitaine-cursors'
-'dxvk-bin' # DXVK DirectX to Vulcan
-'github-desktop-bin' # Github Desktop sync
-'mangohud' # Gaming FPS Counter
-'mangohud-common'
-'nerd-fonts-roboto-mono'
-'noto-fonts-emoji'
-'papirus-icon-theme'
-'ocs-url' # install packages from websites
-'sublime-text-4'
-'snapper-gui-git'
-'ttf-droid'
-'ttf-hack'
-'ttf-roboto'
-'snap-pac'
-'spotify'
 'alacritty'
 'alsa-plugins'
 'alsa-utils'
@@ -133,10 +115,27 @@ PKGS=(
 'zsh'
 'zsh-syntax-highlighting'
 'zsh-autosuggestions'
+'awesome-terminal-fonts'
+'capitaine-cursors'
+'dxvk-bin' # DXVK DirectX to Vulcan
+'github-desktop-bin' # Github Desktop sync
+'mangohud' # Gaming FPS Counter
+'mangohud-common'
+'nerd-fonts-roboto-mono'
+'noto-fonts-emoji'
+'papirus-icon-theme'
+'ocs-url' # install packages from websites
+'sublime-text-4'
+'snapper-gui-git'
+'ttf-droid'
+'ttf-hack'
+'ttf-roboto'
+'snap-pac'
+'spotify'
 )
 
 for PKG in "${PKGS[@]}"; do
-    paru -S --noconfirm $PKG
+    yay -S --noconfirm $PKG
 done
 
 echo "------------------------------------------"
