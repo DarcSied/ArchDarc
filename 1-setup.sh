@@ -25,10 +25,6 @@ locale-gen
 timedatectl --no-ask-password set-timezone Asia/Kolkata
 timedatectl --no-ask-password set-ntp 1
 localectl --no-ask-password set-locale LANG="en_IN.UTF-8" LC_TIME="en_IN.UTF-8"
-ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
-hwclock --systohc
-echo LANG=en_IN.UTF-8 > /etc/locale.conf
-echo KEYMAP=colemak > /etc/vconsole.conf
 
 # Adding sudo no password rights
 sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers

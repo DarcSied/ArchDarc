@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+# Copying configs and applying themes
+mkdir $HOME/.config
+cp -r $HOME/ArchDarc/dotfiles/* $HOME/.config/
+mkdir $HOME/bin
+cp -r $HOME/ArchDarc/scripts/* $HOME/bin/
+mkdir $HOME/wallpapers/
+cp -r $HOME/ArchDarc/wallpapers/* $HOME/wallpapers/
+
+if pacman -Qs | grep -E "bspwm"; then
+cp $HOME/ArchDarc/.xinitrc $HOME/
+xwallpaper --zoom $HOME/wallpapers/0.jpg
+fi
+
+if pacman -Qs | grep -E "plasma-desktop"; then
+export PATH=$PATH:$HOME/.local/bin
+pip install konsave
+konsave -i $HOME/ArchDarc/breeze.knsv
+sleep 1
+konsave -a breeze
+fi
+
+echo -e "\nSetting up SDDM Theme"
+if pacman -Qs | grep -E "plasma-desktop"; then
+sudo cat <<EOF > /etc/sddm.conf
+[Theme]
+Current=Breeze
+EOF
+fi
+
+# Replace in the same state
+cd $pwd
+
+# Finish
+finished=false  
+while [ "$finished" != "true" ]
+do
+    echo -e "\nReboot now?[y/n]\n"
+    read OPT
+
+    if [ "$OPT" = y ]; then
+        echo "O.K."
+        finished=true
+        cd $HOME/ArchDarc
+        ./reboot.sh
+    elif [ "$OPT" = n ]; then
+   	    echo -e "\nContinue ahead. After finishing just run the reboot.sh file to reboot.\n"
+        finished=true
+    else
+        echo -e "\nType a valid command"
+    fi
+done
+

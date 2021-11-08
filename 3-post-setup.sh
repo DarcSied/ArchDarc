@@ -13,35 +13,6 @@ elif pacman -Qs | grep -E "lightdm"; then
     sudo systemctl enable lightdm.service
 fi
 
-# Copying configs and applying themes
-mkdir $HOME/.config
-cp -r $HOME/ArchDarc/dotfiles/* $HOME/.config/
-mkdir $HOME/bin
-cp -r $HOME/ArchDarc/scripts/* $HOME/bin/
-mkdir $HOME/wallpapers/
-cp -r $HOME/ArchDarc/wallpapers/* $HOME/wallpapers/
-
-if pacman -Qs | grep -E "bspwm"; then
-cp $HOME/ArchDarc/.xinitrc $HOME/
-xwallpaper --zoom $HOME/wallpapers/0.jpg
-fi
-
-if pacman -Qs | grep -E "plasma-desktop"; then
-export PATH=$PATH:$HOME/.local/bin
-pip install konsave
-konsave -i $HOME/ArchDarc/breeze.knsv
-sleep 1
-konsave -a breeze
-fi
-
-echo -e "\nSetting up SDDM Theme"
-if pacman -Qs | grep -E "plasma-desktop"; then
-sudo cat <<EOF > /etc/sddm.conf
-[Theme]
-Current=Breeze
-EOF
-fi
-
 echo -e "\nEnabling essential services"
 systemctl enable cups.service
 ntpd -qg
@@ -55,16 +26,19 @@ systemctl enable bluetooth
 setxkbmap us -variant colemak
 
 echo -e "\nCleaning up"
+# Cleaning up orphans
+sudo pacman -R $(pacman -Qtdq) --noconfirm --needed
+# Auto-clean hook for systemd journal
+sed -i 's/^#SystemMaxUse=/SystemMaxUse=50M/' /etc/systemd/journald.conf
+# Auto-clean hook for pacman cache
+sudo cp $HOME/ArchDarc/paccache.timer /etc/systemd/system/
+sudo systemctl enable paccache.timer
 
 # Remove no password sudo rights
 sed -i 's/^%wheel ALL=(ALL) NOPASSWD: ALL/# %wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
 # Add sudo rights
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 
-# Replace in the same state
-cd $pwd
-echo "
-##########################################################
-###    Done!! Please Eject Install Media and Reboot    ###
-##########################################################
-"
+echo "--------------------------------------"
+echo "---    PROCEEDING WITH 4-config    ---"
+echo "--------------------------------------"

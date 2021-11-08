@@ -3,6 +3,11 @@
 echo -e "\nInstalling AUR Packages\n"
 # You can solve users running this script as root with this and then doing the same for the next for statement. However I will leave this up to you.
 
+ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
+hwclock --systohc
+echo LANG=en_IN.UTF-8 > /etc/locale.conf
+echo KEYMAP=colemak > /etc/vconsole.conf
+
 echo "CLONING: Paru"
 mkdir ~/Packages
 cd ~/Packages
