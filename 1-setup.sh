@@ -75,6 +75,7 @@ do
     elif [ "$OPT" = 3 ]; then
     	echo -e "\nYou can install your choice after the script ends\n"
         finished=true
+		sudo pacman -S rofi lxappearence lxpolkit qt5ct dunst betterlockscreen flameshot gufw lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings xfce4-power-manager --noconfirm --needed
     else
         echo -e "\nType a valid command"
     fi
