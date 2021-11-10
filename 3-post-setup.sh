@@ -27,7 +27,7 @@ setxkbmap us -variant colemak
 
 echo -e "\nCleaning up"
 # Cleaning up orphans
-sudo pacman -R $(pacman -Qtdq) --noconfirm --needed
+pacman -Qtdq | pacman -Rns - --noconfirm --needed
 # Auto-clean hook for systemd journal
 sed -i 's/^#SystemMaxUse=/SystemMaxUse=50M/' /etc/systemd/journald.conf
 # Auto-clean hook for pacman cache

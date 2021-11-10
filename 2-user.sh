@@ -63,6 +63,7 @@ PKGS=(
 'htop'
 'iptables-nft'
 'jdk-openjdk' # Java 17
+'libinput'
 'libtool'
 'libdvdcss'
 'lsof'
