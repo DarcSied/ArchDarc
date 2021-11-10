@@ -1,0 +1,11 @@
+1) To get out of the chroot environment.
+exit
+
+2) To unmount the disks.
+umount -R /mnt
+
+3a) To shutdown
+shutdown now
+	[or]
+3b) To reboot
+reboot

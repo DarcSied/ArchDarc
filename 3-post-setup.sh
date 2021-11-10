@@ -31,7 +31,7 @@ sudo pacman -R $(pacman -Qtdq) --noconfirm --needed
 # Auto-clean hook for systemd journal
 sed -i 's/^#SystemMaxUse=/SystemMaxUse=50M/' /etc/systemd/journald.conf
 # Auto-clean hook for pacman cache
-sudo cp $HOME/ArchDarc/paccache.timer /etc/systemd/system/
+sudo cp $HOME/ArchDarc/files/paccache.timer /etc/systemd/system/
 sudo systemctl enable paccache.timer
 
 # Remove no password sudo rights
