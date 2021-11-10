@@ -119,7 +119,6 @@ PKGS=(
 'zathura'
 'zathura-pdf-mupdf'
 'zip'
-'zsh'
 'zsh-syntax-highlighting'
 'zsh-autosuggestions'
 'awesome-terminal-fonts'

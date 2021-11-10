@@ -13,6 +13,9 @@ elif pacman -Qs | grep -E "lightdm"; then
     sudo systemctl enable lightdm.service
 fi
 
+echo -e "\nChanging default shell to zsh"
+chsh -s /bin/zsh
+
 echo -e "\nEnabling essential services"
 systemctl enable cups.service
 ntpd -qg
@@ -27,7 +30,7 @@ setxkbmap us -variant colemak
 
 echo -e "\nCleaning up"
 # Cleaning up orphans
-pacman -Qtdq | pacman -Rns - --noconfirm --needed
+sudo pacman -Qtdq | sudo pacman -Rns - --noconfirm
 # Auto-clean hook for systemd journal
 sed -i 's/^#SystemMaxUse=/SystemMaxUse=50M/' /etc/systemd/journald.conf
 # Auto-clean hook for pacman cache
